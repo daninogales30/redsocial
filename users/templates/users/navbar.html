@@ -1,0 +1,71 @@
+<!-- Botón para abrir menú en móvil -->
+<button class="menu-toggle" id="menuToggle">☰</button>
+
+<!-- Barra lateral -->
+<aside class="sidebar" id="sidebar">
+    <nav class="sidebar-nav">
+        <a href=""><i class="fas fa-home"></i> <span>Inicio</span></a>
+        <a href="#"><i class="fas fa-comment-dots"></i> <span>Mensajes</span></a>
+        <a href="#"><i class="fas fa-search"></i> <span>Buscar</span></a>
+        <a href="#"><i class="fas fa-heart"></i> <span>Notificaciones</span></a>
+        <a href="#"><i class="fas fa-plus-square"></i> <span>Crear</span></a>
+        <a href=""><i class="fas fa-user-circle"></i> <span>Perfil</span></a>
+    </nav>
+
+    <div class="dropdown">
+        <a href="#" class="dropdown-trigger" id="moreBtn">
+            <i class="fas fa-ellipsis-h"></i> <span>Más</span>
+        </a>
+        <div class="dropdown-menu" id="moreDropdown">
+            <div class="darkmode-toggle">
+                <i class="fas fa-moon"></i>
+                <span>Modo oscuro</span>
+                <label class="switch">
+                    <input type="checkbox" id="darkModeSwitch">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <form method="post" action="{% url 'users:logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn">
+                    <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+                </button>
+            </form>
+        </div>
+    </div>
+</aside>
+
+
+<script>
+    document.querySelectorAll('.sidebar-nav a').forEach(link => {
+        link.addEventListener('mousedown', function () {
+            this.classList.add('clicked');
+        });
+        link.addEventListener('mouseup', function () {
+            this.classList.remove('clicked');
+        });
+        link.addEventListener('mouseleave', function () {
+            this.classList.remove('clicked');
+        });
+    });
+
+    // Dropdown "Más"
+    const moreBtn = document.getElementById('moreBtn');
+    const moreDropdown = document.getElementById('moreDropdown');
+
+    if (moreBtn && moreDropdown) {
+        moreBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            moreDropdown.classList.toggle('show');
+        });
+
+        // Cerrar el dropdown si se hace clic fuera de él
+        document.addEventListener('click', function (e) {
+            if (!moreBtn.contains(e.target) && !moreDropdown.contains(e.target)) {
+                moreDropdown.classList.remove('show');
+            }
+        });
+    }
+
+</script>

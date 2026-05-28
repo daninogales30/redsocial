@@ -1,0 +1,74 @@
+.perfil {
+    width: 100%;
+    padding-top: 70px;
+}
+
+.perfil-content {
+    max-width: 700px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.parte1 {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.perfil-header {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 50px;
+}
+
+.perfil-header img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.perfil-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.perfil-titulo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.perfil-info span {
+    margin-bottom: 40px;
+}
+
+.botones-perfil {
+    display: flex;
+    gap: 20px;          /* Separación entre botones */
+    margin-top: 20px;
+}
+
+.btn {
+    flex: 1;            /* Cada botón ocupa el mismo espacio */
+    text-align: center;
+    background-color: #f0f2f5;
+    color: black;
+    font-size: 15px;
+    font-weight: 700;
+    text-transform: none;
+    text-decoration: none;
+    padding: 10px 0;    /* Padding horizontal dinámico (0) */
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #d9dbdf;
+}
+

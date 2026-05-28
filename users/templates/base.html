@@ -1,0 +1,88 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'users/static/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'users/static/css/navbar.css' %}">
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="base">
+
+<!-- Aqui va la navbar -->
+{% include 'users/navbar.html' %}
+
+<main class="container">
+    {% block content %}
+    {% endblock %}
+</main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Abrir/cerrar sidebar en móvil
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+
+        if (menuToggle && sidebar) {
+            menuToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('open');
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!sidebar.contains(e.target) && !menuToggle.contains(e.target) && sidebar.classList.contains('open')) {
+                    sidebar.classList.remove('open');
+                }
+            });
+        }
+
+        // Marcar enlace activo según URL
+        const currentPath = window.location.pathname;
+        document.querySelectorAll('.sidebar-nav a, .mobile-bar a').forEach(link => {
+            const href = link.getAttribute('href');
+            if (href && currentPath === href) {
+                link.classList.add('active');
+            }
+        });
+
+        // Modo oscuro / claro global
+        const darkModeSwitch = document.getElementById('darkModeSwitch');
+
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                document.body.classList.add('dark-mode');
+                if (darkModeSwitch) darkModeSwitch.checked = true;
+            } else {
+                document.body.classList.remove('dark-mode');
+                if (darkModeSwitch) darkModeSwitch.checked = false;
+            }
+        }
+
+        // Cargar tema guardado
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        applyTheme(savedTheme);
+
+        // Cambiar tema con el switch
+        if (darkModeSwitch) {
+            darkModeSwitch.addEventListener('change', function () {
+                if (this.checked) {
+                    applyTheme('dark');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    applyTheme('light');
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+        } else {
+            console.warn('No se encontró el switch darkModeSwitch');
+        }
+    });
+</script>
+</body>
+</html>

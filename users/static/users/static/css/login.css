@@ -1,0 +1,255 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: white;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    color: #262626;
+}
+
+/* Contenedor principal: ocupa 100% ancho y alto completo */
+.split-container {
+    display: flex;
+    width: 100%;
+    min-height: 100vh; /* al menos toda la altura, si el footer es parte del flujo */
+    background: #fff;
+}
+
+/* LADO IZQUIERDO - IMÁGENES (ocupa 50% del ancho total) */
+.left-images {
+    flex: 6.7;
+    background: #000; /* fondo oscuro para resaltar imágenes */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Carrusel más grande, adaptable */
+.image-carousel {
+    width: 80%;
+    max-width: 500px;
+    height: auto;
+    aspect-ratio: 9 / 16; /* ratio de móvil */
+    background: url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&h=800&fit=crop') no-repeat center/cover;
+    border-radius: 12px;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+    transition: background-image 0.6s ease;
+    position: relative;
+}
+
+/* puntos del carrusel */
+.carousel-dots {
+    position: absolute;
+    bottom: 15px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.dot.active {
+    background: #0095f6;
+    transform: scale(1.2);
+}
+
+/* LADO DERECHO - LOGIN (ocupa el otro 50%) */
+.right-login {
+    flex: 3.3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background: #ffffff;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 90%;
+}
+
+.tagline {
+    text-align: center;
+    font-size: 15px;
+    color: #8e8e8e;
+    margin-bottom: 20px;
+}
+
+.login-title {
+    font-size: 28px;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 28px;
+    color: #262626;
+}
+
+.input-group {
+    margin-bottom: 12px;
+}
+
+.input-group input {
+    width: 100%;
+    background: #fafafa;
+    border: 1px solid #dbdbdb;
+    outline: none;
+    padding: 16px 12px; /* antes 12px, ahora más alto */
+    font-size: 16px; /* texto más grande */
+    border-radius: 8px; /* ligeramente más redondeado (opcional) */
+}
+
+
+.input-group input:focus {
+    border-color: #a8a8a8;
+    background: #fff;
+}
+
+.login-btn {
+    background: #0095f6;
+    border: none;
+    width: 100%;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    margin-top: 8px;
+    margin-bottom: 18px;
+    padding: 12px 0; /* antes 9px, más alto */
+    font-size: 16px;
+    border-radius: 10px;
+}
+
+.login-btn:hover {
+    background: #1877f2;
+}
+
+.forgot-link {
+
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.forgot-link a {
+    font-size: 14px;
+    color: #00376b;
+    text-decoration: none;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 18px 0 20px;
+}
+
+.divider-line {
+    flex: 1;
+    height: 1px;
+    background: #dbdbdb;
+}
+
+.divider-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: #8e8e8e;
+}
+
+.facebook-login {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.facebook-login a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    color: #385185;
+}
+
+.signup-link {
+    text-align: center;
+    border-top: 1px solid #dbdbdb;
+    padding-top: 24px;
+    margin-top: 8px;
+}
+
+.signup-link a {
+    font-size: 16px;
+    font-weight: 500;
+    color: #0095f6;
+    text-decoration: none;
+}
+
+/* Modo oscuro */
+body.dark-mode {
+    background-color: #121212;
+    color: #f1f1f1;
+}
+
+body.dark-mode .split-container {
+    background-color: #121212;
+}
+
+body.dark-mode .right-login {
+    background-color: #1f1f1f;
+}
+
+body.dark-mode .login-card {
+    background-color: #2a2a2a;
+    color: #f1f1f1;
+}
+
+body.dark-mode .login-title {
+    color: #f1f1f1;
+}
+
+body.dark-mode input {
+    background-color: #3a3a3a;
+    color: #f1f1f1;
+    border-color: #555;
+}
+
+body.dark-mode input::placeholder {
+    color: #aaa;
+}
+
+body.dark-mode .login-btn {
+    background-color: #4f8cff;
+}
+
+body.dark-mode .forgot-link a,
+body.dark-mode .signup-link a {
+    color: #4f8cff;
+}
+
+
+/* Responsive: en móviles ocultamos la columna de imágenes */
+@media (max-width: 750px) {
+    .left-images {
+        display: none;
+    }
+
+    .split-container {
+        min-height: auto;
+    }
+
+    .right-login {
+        padding: 40px 20px;
+    }
+}

@@ -1,0 +1,35 @@
+:root {
+    --bg-color: #ffffff;
+    --text-color: #262626;
+    --container-bg: transparent;
+    --link-color: #262626;
+}
+
+body {
+    margin: 0;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark-mode {
+    --bg-color: #121212;
+    --text-color: #f1f1f1;
+    --container-bg: #121212;
+    --link-color: #f1f1f1;
+}
+
+a {
+    color: var(--link-color);
+}
+
+.container {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    display: block;
+    background-color: var(--container-bg);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}

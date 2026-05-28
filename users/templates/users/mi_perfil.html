@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Mi Perfil - Pixora{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'users/static/css/mi_perfil.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    <section class="perfil">
+        <div class="perfil-content">
+            <div class="parte1">
+                <div class="perfil-header">
+                    <img src="{{ perfil.foto_perfil.url }}" alt="dawdawd">
+                </div>
+                <div class="perfil-info">
+                    <div class="perfil-titulo">
+                        <h2>{{ perfil.username }}</h2>
+                        {% if es_propio %}
+                            <a href=""><i class="fa-solid fa-gear"></i></a>
+                        {% endif %}
+                    </div>
+                    <span>{{ perfil.first_name }}</span>
+                    <span>{{ perfil.bio }}</span>
+                </div>
+            </div>
+
+            <div class="botones-perfil">
+                {% if es_propio %}
+                    <a class="btn">Editar perfil</a>
+                    <a class="btn">Ver archivo</a>
+                {% endif %}
+            </div>
+
+        </div>
+    </section>
+
+{% endblock %}

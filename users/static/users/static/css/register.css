@@ -1,0 +1,225 @@
+/* ========== RESET Y BASE ========== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ========== VARIABLES MODO CLARO (por defecto) ========== */
+:root {
+    --bg-body: #fafafa;
+    --card-bg: #ffffff;
+    --text-primary: #262626;
+    --text-secondary: #8e8e8e;
+    --border-color: #dbdbdb;
+    --input-bg: #fafafa;
+    --input-border: #dbdbdb;
+    --input-focus: #a8a8a8;
+    --btn-bg: #0095f6;
+    --btn-hover: #1877f2;
+    --link-color: #00376b;
+    --footer-border: #dbdbdb;
+}
+
+/* ========== VARIABLES MODO OSCURO ========== */
+.dark-mode {
+
+    --bg-body: #121212;
+    --card-bg: #1e1e1e;
+    --text-primary: #ffffff;
+    --text-secondary: #a0a0a0;
+    --border-color: #333333;
+    --input-bg: #515151;
+    --input-focus-bg: #ffffff;
+    --input-focus-color: #000000;
+    --input-border: #444444;
+    --input-focus: #3a3a3a;
+    --btn-bg: #0095f6;
+    --btn-hover: #1c8ddf;
+    --link-color: #80c0ff;
+    --footer-border: #333333;
+}
+
+/* Aplicación de variables */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-body);
+    display: block;
+    padding: 0;
+    min-height: 100vh;
+    transition: background-color 0.3s, color 0.2s;
+}
+
+/* Contenedor principal: ocupa toda la altura y centra horizontalmente */
+.register-wrapper {
+    width: 100%;
+    max-width: 700px;        /* un poco más ancho opcional */
+    margin: 0 auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;  /* centrado vertical; si quieres que ocupe más largo sin centrar, cambia a flex-start */
+    padding: 24px;
+}
+
+/* Tarjeta del formulario */
+.register-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;      /* más redondeado */
+    padding: 48px 40px;       /* más padding interior */
+    width: 100%;
+    transition: background-color 0.3s, border-color 0.2s;
+}
+
+/* Títulos más grandes */
+.main-title {
+    font-size: 34px;          /* antes 28px */
+    font-weight: 600;
+    text-align: center;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+}
+
+.subtitle {
+    font-size: 18px;          /* antes 16px */
+    text-align: center;
+    color: var(--text-secondary);
+    margin-bottom: 40px;
+    line-height: 1.4;
+}
+
+/* Grupos de formulario */
+.form-group {
+    margin-bottom: 28px;      /* más separación */
+}
+
+/* Inputs y selects más grandes */
+.form-group input,
+.form-group select {
+    width: 100%;
+    background-color: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 14px;      /* más redondeado */
+    padding: 18px 16px;       /* más alto (18px de padding vertical) */
+    font-size: 18px;          /* texto más grande */
+    font-family: inherit;
+    outline: none;
+    transition: all 0.2s;
+    color: var(--text-primary);
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: var(--input-focus);
+    background-color: var(--card-bg);
+}
+
+.form-group input:focus {
+    background-color: var(--input-focus-bg);
+    color: var(--input-focus-color);
+}
+
+/* Fila de fecha (si la usas) */
+.date-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+.date-row .form-group {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+/* Textos informativos */
+.info-text {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin: 8px 0 16px;
+    line-height: 1.4;
+}
+.info-text a {
+    color: var(--link-color);
+    text-decoration: none;
+}
+.info-text a:hover {
+    text-decoration: underline;
+}
+
+/* Términos */
+.terms-text {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin: 24px 0 28px;
+    text-align: center;
+}
+.terms-text a {
+    color: var(--link-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+.terms-text a:hover {
+    text-decoration: underline;
+}
+
+/* Botón de envío más grande */
+.submit-btn {
+    width: 100%;
+    background-color: var(--btn-bg);
+    border: none;
+    border-radius: 14px;
+    padding: 16px 0;          /* más alto */
+    font-weight: 700;
+    font-size: 18px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    margin-top: 12px;
+}
+.submit-btn:hover {
+    background-color: var(--btn-hover);
+}
+.submit-btn:active {
+    transform: scale(0.98);
+}
+
+/* Pie de página (si lo usas) */
+.footer-note {
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-secondary);
+    border-top: 1px solid var(--footer-border);
+    padding-top: 24px;
+    margin-top: 12px;
+}
+
+/* Responsive para móviles (ajustes más grandes pero proporcionados) */
+@media (max-width: 600px) {
+    .register-wrapper {
+        padding: 16px;
+        justify-content: flex-start;  /* quita centrado vertical en móvil para que se vea más contenido */
+        padding-top: 32px;
+    }
+    .register-card {
+        padding: 32px 24px;
+    }
+    .main-title {
+        font-size: 28px;
+    }
+    .subtitle {
+        font-size: 16px;
+        margin-bottom: 32px;
+    }
+    .form-group input,
+    .form-group select {
+        padding: 14px 14px;
+        font-size: 16px;
+    }
+    .submit-btn {
+        padding: 14px 0;
+        font-size: 16px;
+    }
+    .form-group {
+        margin-bottom: 22px;
+    }
+}

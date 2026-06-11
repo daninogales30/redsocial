@@ -13,6 +13,7 @@ class User(AbstractUser):
             )
         ]
     )
+    date_birth = models.DateField(null=True, blank=True)
     email = models.EmailField(unique=True)
     bio = models.TextField(
         blank=True,
@@ -20,7 +21,7 @@ class User(AbstractUser):
     )
     foto_perfil = models.ImageField(
         upload_to='perfiles/',
-        default='default.png',
+        default='perfiles/default.png',
         blank=True,
         null=True,
     )

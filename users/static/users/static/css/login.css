@@ -110,6 +110,7 @@ body {
     padding: 16px 12px; /* antes 12px, ahora más alto */
     font-size: 16px; /* texto más grande */
     border-radius: 8px; /* ligeramente más redondeado (opcional) */
+    transition: all 0.2s;
 }
 
 
@@ -211,7 +212,6 @@ body.dark-mode .right-login {
 }
 
 body.dark-mode .login-card {
-    background-color: #2a2a2a;
     color: #f1f1f1;
 }
 
@@ -220,8 +220,15 @@ body.dark-mode .login-title {
 }
 
 body.dark-mode input {
-    background-color: #3a3a3a;
-    color: #f1f1f1;
+    background-color: #515151;
+    color: #d3d3d3;
+    border-color: #555;
+    transition: all 0.2s;
+}
+
+body.dark-mode input:focus {
+    background-color: #ffffff;
+    color: #3a3a3a;
     border-color: #555;
 }
 

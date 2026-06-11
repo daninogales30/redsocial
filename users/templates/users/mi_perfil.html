@@ -18,9 +18,6 @@
                 <div class="perfil-info">
                     <div class="perfil-titulo">
                         <h2>{{ perfil.username }}</h2>
-                        {% if es_propio %}
-                            <a href=""><i class="fa-solid fa-gear"></i></a>
-                        {% endif %}
                     </div>
                     <span>{{ perfil.first_name }}</span>
                     <span>{{ perfil.bio }}</span>
@@ -30,7 +27,9 @@
             <div class="botones-perfil">
                 {% if es_propio %}
                     <a class="btn">Editar perfil</a>
-                    <a class="btn">Ver archivo</a>
+                    <a class="btn">Ver guardados</a>
+                {% else %}
+                    <p>No es propio</p>
                 {% endif %}
             </div>
 

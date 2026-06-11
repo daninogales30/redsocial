@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import DetailView, FormView
 
-from users.forms import LoginForm
+from users.forms import LoginForm, RegisterForm
 from users.models import User
 
 
@@ -47,4 +47,28 @@ class LoginModifiedView(FormView):
 
         messages.error(self.request, 'Credenciales incorrectas')
         return super().form_invalid(form)
+
+class RegisterView(FormView):
+    template_name = 'registration/register.html'
+    form_class = RegisterForm
+
+    def get_success_url(self):
+        user = self.request.user.username
+        return reverse('users:perfil', kwargs={'username': user})
+
+    def form_valid(self, form):
+        user = User.objects.create_user(
+            email=form.cleaned_data['email'],
+            password=form.cleaned_data['password1'],
+            date_birth=form.cleaned_data.get('fecha_nacimiento'),
+            first_name=form.cleaned_data['nombre'],
+            username=form.cleaned_data['username'],
+        )
+
+        if 'foto_perfil' in self.request.FILES:
+            user.foto_perfil = self.request.FILES['foto_perfil']
+            user.save()
+
+        login(self.request, user)
+        return super().form_valid(form)
 

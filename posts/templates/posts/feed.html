@@ -1,0 +1,227 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'posts/static/css/feed.css' %}">
+{% endblock %}
+
+{% block title %}Feed - Pixora{% endblock %}
+
+{% block content %}
+    <div class="feed-container">
+        {% for post in posts %}
+            <div class="post-card">
+                <div class="post-header">
+                    <div class="user-info">
+                        <img class="avatar"
+                             src="{% if post.autor.foto_perfil %}{{ post.autor.foto_perfil.url }}{% endif %}"
+                             alt="avatar">
+                        <a href="{% url 'users:perfil' username=post.autor.username %}"
+                           class="username">{{ post.autor.username }}</a>
+                        {% if post.likes.count >= 10000 %}
+                            <span class="trending-badge">🔥 {{ post.likes.count|floatformat:"0"|slice:":2" }}K likes</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <img class="post-image" src="{{ post.imagen.url }}" alt="post image">
+                <div class="post-actions">
+                    <div class="left-actions">
+                        <button class="action-btn like-btn" data-post-id="{{ post.id }}">
+                            <i class="{% if post.id in liked_posts %}fas{% else %}far{% endif %} fa-heart"></i>
+                        </button>
+                        <button class="action-btn open-comments" data-post-id="{{ post.id }}">
+                            <i class="far fa-comment"></i>
+                        </button>
+                        <button class="action-btn"><i class="far fa-paper-plane"></i></button>
+                    </div>
+                    <button class="save-btn"><i class="far fa-bookmark"></i></button>
+                </div>
+                <div class="likes-count" id="likes-count-{{ post.id }}">
+                    {{ post.likes.count }} Me gusta
+                </div>
+                <div class="post-caption">
+                    <span class="caption-username">{{ post.autor.username }}</span>
+                    <span class="caption-text">{{ post.texto }}</span>
+                </div>
+                <div class="post-time">hace {{ post.fecha_publicacion|timesince }}</div>
+            </div>
+        {% empty %}
+            <div class="no-posts">No hay publicaciones para mostrar.</div>
+        {% endfor %}
+
+        <div id="comments-modal" class="modal hidden">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h3>Comentarios</h3>
+                    <button id="close-modal">✕</button>
+                </div>
+
+                <div id="comments-list">
+                    <!-- aquí se cargan comentarios -->
+                </div>
+
+                <form id="comment-form">
+                    <input type="text" id="comment-input" placeholder="Escribe un comentario...">
+                    <button type="submit">Enviar</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.like-btn').forEach(button => {
+            button.addEventListener('click', async function () {
+
+                const postId = this.dataset.postId;
+                const icon = this.querySelector('i');
+
+                const response = await fetch(`/posts/${postId}/like/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken'),
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+
+                // Cambiar icono
+                if (data.liked) {
+                    icon.classList.remove('far');
+                    icon.classList.add('fas');
+                } else {
+                    icon.classList.remove('fas');
+                    icon.classList.add('far');
+                }
+
+                // Actualizar contador
+                document.getElementById(`likes-count-${postId}`).textContent =
+                    `${data.likes_count} Me gusta`;
+            });
+        });
+
+        // función para CSRF (necesaria en Django)
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        let currentPostId = null;
+
+        // ======================
+        // ELEMENTOS DEL DOM
+        // ======================
+        const modal = document.getElementById('comments-modal');
+        const commentsList = document.getElementById('comments-list');
+        const closeModal = document.getElementById('close-modal');
+        const commentForm = document.getElementById('comment-form');
+        const commentInput = document.getElementById('comment-input');
+
+
+        // ======================
+        // ABRIR MODAL + CARGAR COMENTARIOS
+        // ======================
+        document.querySelectorAll('.open-comments').forEach(btn => {
+            btn.addEventListener('click', async function () {
+
+                currentPostId = this.dataset.postId;
+
+                modal.classList.remove('hidden');
+
+                try {
+                    const res = await fetch(`/posts/${currentPostId}/comments/`);
+                    const data = await res.json();
+
+                    renderComments(data.comments);
+
+                } catch (error) {
+                    console.error('Error cargando comentarios:', error);
+                    commentsList.innerHTML = "<p>Error al cargar comentarios</p>";
+                }
+            });
+        });
+
+
+        // ======================
+        // CERRAR MODAL
+        // ======================
+        closeModal.addEventListener('click', () => {
+            modal.classList.add('hidden');
+            currentPostId = null;
+        });
+
+
+        // ======================
+        // RENDER COMENTARIOS
+        // ======================
+        function renderComments(comments) {
+            commentsList.innerHTML = '';
+
+            if (!comments.length) {
+                commentsList.innerHTML = "<p>No existen comentarios</p>";
+                return;
+            }
+
+            comments.forEach(c => {
+                const div = document.createElement('div');
+                div.classList.add('comment');
+
+                div.innerHTML = `
+            <b>${c.user}</b>: ${c.text}
+        `;
+
+                commentsList.appendChild(div);
+            });
+        }
+
+
+        // ======================
+        // ENVIAR COMENTARIO
+        // ======================
+        commentForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            if (!currentPostId) return;
+
+            const text = commentInput.value.trim();
+            if (!text) return;
+
+            try {
+                const res = await fetch(`/posts/${currentPostId}/comments/create/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify({text})
+                });
+
+                const data = await res.json();
+
+                // actualizar comentarios sin recargar
+                renderComments(data.comments);
+
+                commentInput.value = '';
+
+            } catch (error) {
+                console.error('Error enviando comentario:', error);
+            }
+        });
+
+
+
+    </script>
+
+{% endblock %}

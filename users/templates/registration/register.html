@@ -1,0 +1,81 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Regístrate - Pixora</title>
+    <link rel="stylesheet" href="{% static 'users/static/css/register.css' %}">
+</head>
+<body class="base">
+<div class="register-wrapper">
+    <div class="register-card">
+        <h1 class="main-title">Empieza a usar Pixora</h1>
+        <p class="subtitle">Regístrate para ver fotos y videos de tus amigos.</p>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.email }}
+            </div>
+
+            <div class="form-group">
+                {{ form.password1 }}
+            </div>
+            <div class="form-group">
+                {{ form.password2 }}
+            </div>
+
+            <!-- Fecha de nacimiento -->
+            <div class="form-group">
+                {{ form.fecha_nacimiento }}
+            </div>
+
+            <div class="form-group">
+                {{ form.nombre }}
+            </div>
+
+            <div class="form-group">
+                {{ form.username }}
+            </div>
+
+            <button type="submit" class="submit-btn">Enviar</button>
+        </form>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Modo oscuro / claro global
+        const darkModeSwitch = document.getElementById('darkModeSwitch');
+
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                document.body.classList.add('dark-mode');
+                if (darkModeSwitch) darkModeSwitch.checked = true;
+            } else {
+                document.body.classList.remove('dark-mode');
+                if (darkModeSwitch) darkModeSwitch.checked = false;
+            }
+        }
+
+        // Cargar tema guardado
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        applyTheme(savedTheme);
+
+        // Cambiar tema con el switch
+        if (darkModeSwitch) {
+            darkModeSwitch.addEventListener('change', function () {
+                if (this.checked) {
+                    applyTheme('dark');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    applyTheme('light');
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+        }
+    });
+</script>
+</body>
+</html>
